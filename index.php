@@ -238,7 +238,7 @@ class diamond{
     }
     closedir($handle);
   }
-  ksort($files);
+  sort($files);
   foreach ($files as $key=>$entry) {
     $diamonds.= '<a href="index.php?filename=' . $entry . '">' . $entry . '</a></br>';
   }
