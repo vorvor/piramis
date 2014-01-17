@@ -172,6 +172,16 @@ class diamond{
    }
    $this->data['rowsnum'] = $rowsnum;
    
+  if (isset($this->data['note'])) {
+   $note = $this->data['note'];
+  }
+  
+  if (isset($_POST['note'])) {
+    $note = $_POST['note'];
+   }
+   
+   $this->data['note'] = $note;
+   
   $this->output = '<div id="interface"><form id="diamond" name="diamond" method="POST">';
    for ($row = 0; $row < $rowsnum+1; $row++) {
     for ($c = 0; $c<$row; $c++) {
@@ -199,7 +209,7 @@ class diamond{
    
    $this->output.= '<label>Sorok száma:</label><input type="text" name="rowsnum" value="' . $rowsnum . '"><br />';
    $this->output.= '<label>Fájlnév:</label><input id="filename" type="text" name="filename" value="' . $filename . '"><br />';
-   $this->output.= '<label>Jegyzet:</label><input id="note" type="text" name="note" value="' . $note . '"><br />';
+   $this->output.= '<label>Jegyzet:</label><textarea cols="30" rows="8" id="note" type="text" name="note">' . $note . '</textarea><br />';
    $this->output.= '<input id="saved" type="text" name="saved" value="' . $saved . '"><br />';
    $this->output.= '<input id="submit" type="submit" value="mentés">';
    $this->output.= '</form></div>';
