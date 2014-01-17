@@ -78,6 +78,11 @@ header('Content-Type: text/html; charset=utf-8');
   display:block;
  }
  
+ .printval {
+  width:52px;
+  font-weight:bold;
+  margin-top: 3px;
+ }
 
  
 </style>
@@ -117,6 +122,7 @@ class diamond{
   
   
   //$this->output.= '<div class="diamond" style="position:absolute;left:' .$xcord . 'px;top:' . $ycord . 'px;">'.($x+1).':'.$y.'</div>';
+  
   $this->output.= '<div class="diamond" style="position:absolute;left:' .$xcord . 'px;top:' . $ycord . 'px;background-image:url(' . $color . '.png);">';
   
   
@@ -146,8 +152,9 @@ class diamond{
 
   $this->output.= '<input class="cell-color" type="hidden" id="cellcolor_' . $x . '_'. $y .'" name="cell_' . $x . '_'. $y .'_color" value="' . $color . '">';  
   $this->output.= '<input class="cell" type="text" id="cell_' . $x . '_'. $y .'" name="cell_' . $x . '_' . $y .'" value="' . $val . '">';
+  $this->output.= '<div class="printval"></div>';
   
-  $this->output.= '</div>';
+  $this->output.= '</div>'; //.diamond
   
   
   $this->data[$x.'_'.$y] = $val;
@@ -181,8 +188,10 @@ class diamond{
    }
    
    $this->data['note'] = $note;
-   
-  $this->output = '<div id="interface"><form id="diamond" name="diamond" method="POST">';
+  
+  $this->output.= '<input type="button" value="nyomtatási nézet" id="printout">';
+  $this->output.= '<div id="note_print"></div>';
+  $this->output.= '<div id="interface"><form id="diamond" name="diamond" method="POST">';
    for ($row = 0; $row < $rowsnum+1; $row++) {
     for ($c = 0; $c<$row; $c++) {
      $this->add($c, $row);
@@ -207,9 +216,9 @@ class diamond{
   
  
    
-   $this->output.= '<label>Sorok száma:</label><input type="text" name="rowsnum" value="' . $rowsnum . '"><br />';
+   $this->output.= '<label>Sorok száma:</label><input id="rowsnum" type="text" name="rowsnum" value="' . $rowsnum . '"><br />';
    $this->output.= '<label>Fájlnév:</label><input id="filename" type="text" name="filename" value="' . $filename . '"><br />';
-   $this->output.= '<label>Jegyzet:</label><textarea cols="30" rows="8" id="note" type="text" name="note">' . $note . '</textarea><br />';
+   $this->output.= '<label>Jegyzet:</label><textarea id="note" cols="30" rows="8" id="note" type="text" name="note">' . $note . '</textarea><br />';
    $this->output.= '<input id="saved" disabled type="text" name="saved" value="' . $saved . '"><br />';
    $this->output.= '<input id="submit" type="submit" value="mentés">';
    $this->output.= '</form></div>';
@@ -346,13 +355,49 @@ $(document).ready(function()
   $('.diamond .cell').focus(function() {
     $(this).parent().css('background-image','url(1a.png)');
   })
+  
+  $('#printout').click(function() {
+    if ($('#rowsnum').is(':visible')) {
+      $('#diamond label').hide();
+      $('#interface').css('background','none');
+      $('#rowsnum').hide();
+      $('#filename').hide();
+      $('#note').hide();
+      $('#note_print').html($('#note').val());
+      $('#saved').hide();
+      $('#submit').hide();
+      $('#list_of_diamonds').hide();
+      $(this).val('Szerkesztési nézet');
+      
+      $('.diamond').each(function() {
+        $('.printval',this).html($('.cell',this).val());
+      });
+      $('.cell').hide();
+    } else {
+      $('#diamond label').show();
+      $('#interface').css('background','#ccc');
+      $('#rowsnum').show();
+      $('#filename').show();
+      $('#note').show();
+      $('#note_print').html('');
+      $('#saved').show();
+      $('#submit').show();
+      $('#list_of_diamonds').show();
+      $(this).val('Nyomtatási nézet');
+      
+       $('.diamond').each(function() {
+        $('.printval',this).html('');
+      });
+       $('.cell').show();
+    }
+  })
 
 })
 </script>
 
 
 
-
+<?php /*
 <!-- hitwebcounter Code START -->
 <a href="http://www.hitwebcounter.com/" target="_blank" style="display:none;">
 <img src="http://hitwebcounter.com/counter/counter.php?page=5245584&style=0001&nbdigits=5&type=page&initCount=0" title="best tracking stats" Alt="best tracking stats"   border="0" >
@@ -360,6 +405,7 @@ $(document).ready(function()
 <!-- hitwebcounter.com --><a href="http://www.hitwebcounter.com/countersiteservices.php" title="Websites Counter" 
 target="_blank" style="font-family: Arial, Helvetica, sans-serif; 
 font-size: 11px; color: #758087; text-decoration: none ;"><strong>Websites Counter</strong>
-</a>  
+</a>
+*/ ?>
 </body>
 </html>
