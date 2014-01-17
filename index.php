@@ -152,6 +152,7 @@ class diamond{
   
   $this->data[$x.'_'.$y] = $val;
   $this->data[$x.'_'.$y.'_color'] = $color;
+  
   //print('<pre>' . print_r($this->data) . '</pre>');
  }
  
@@ -181,19 +182,24 @@ class diamond{
    
    if (isset($_GET['filename'])) {
     $filename = $_GET['filename'];
-   }
+    $note = $this->data['note'];
+    }
    
    if (isset($_POST['filename'])) {
     $filename = $_POST['filename'];
+    $note = $_POST['note'];
    }
    
    if (isset($_POST['saved'])) {
     $saved = $_POST['saved'];
    }
    
+  
+ 
    
    $this->output.= '<label>Sorok száma:</label><input type="text" name="rowsnum" value="' . $rowsnum . '"><br />';
    $this->output.= '<label>Fájlnév:</label><input id="filename" type="text" name="filename" value="' . $filename . '"><br />';
+   $this->output.= '<label>Jegyzet:</label><input id="note" type="text" name="note" value="' . $note . '"><br />';
    $this->output.= '<input id="saved" type="text" name="saved" value="' . $saved . '"><br />';
    $this->output.= '<input id="submit" type="submit" value="mentés">';
    $this->output.= '</form></div>';
@@ -323,7 +329,7 @@ $(document).ready(function()
     $(this).parent().parent().css('background-image','url('+color+'.png)');
     $(this).parent().next().val(color);
     cellbg = color;
-    
+    $('#saved').val('NINCS MENTVE!');
     
   })
   
