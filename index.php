@@ -19,6 +19,7 @@ header('Content-Type: text/html; charset=utf-8');
   width:36px;
   position:absolute;
   left:8px;
+  text-align: right;
  }
  .diamond .cell-color {
   width:10px;
